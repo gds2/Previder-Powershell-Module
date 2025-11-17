@@ -460,7 +460,7 @@ function Get-Vm
     {
         $VmPage = Get-VmPage -Query $Name -Size 1
         if ($VmPage.totalElements -eq 0)
-        {
+        {Auto
             throw "Virtualmachine not found by name"
         }
         $Vm = $VmPage.content[0]
@@ -710,6 +710,7 @@ function New-Vm
         [boolean] $SecureBoot,
         [boolean] $TPM,
         [boolean] $PowerOnAfterClone,
+        [boolean] $Byol,
         [string] $Flavor
     )
 
@@ -867,6 +868,11 @@ function New-Vm
             Throw "FirmwareEfi needs to be true in order to include TPM"
         }
         $vm.tpm = $TPM;
+    }
+    
+    if($Byol)
+    {
+	$vm.byol = $Byol;    
     }
 
     if ($PowerOnAfterClone)
